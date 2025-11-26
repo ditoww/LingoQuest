@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -45,5 +46,21 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
     implementation ("androidx.core:core:1.10.0")
+    // Existing dependencies...
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    // ... dll
+
+    // Firebase BoM - mengatur versi semua Firebase libraries
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+
+    // Firebase products
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-database")
+
+    // Optional: Firebase Analytics (jika enabled di console)
+    implementation("com.google.firebase:firebase-analytics")
 
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "785252079602",
+    "project_id": "lingo-project-def06",
+    "storage_bucket": "lingo-project-def06.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785252079602:android:162bc9c0608aeb2719fd6b",
+        "android_client_info": {
+          "package_name": "com.example.lingoquest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhAgth_q_tZmCUKWdJwYR2M8kMBFi0MTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
