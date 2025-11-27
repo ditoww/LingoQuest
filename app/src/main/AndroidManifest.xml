@@ -64,10 +64,18 @@
             android:exported="false" />
 
         <activity
-            android:name=".ReadingActivity"
+            android:name="ReadingActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".ListeningLevelActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
 
+        <activity
+            android:name=".ReadingLevelActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
 
 
         <!-- FileProvider untuk mendukung akses kamera dan penyimpanan gambar -->

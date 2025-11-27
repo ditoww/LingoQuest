@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ListeningActivity extends AppCompatActivity {
@@ -30,15 +32,18 @@ public class ListeningActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private ImageView btnBack;
 
-    private MediaPlayer mediaPlayer;
+    private TextToSpeech textToSpeech;
     private FirebaseHelper firebaseHelper;
     private String userId, languageId, languageName;
     private int currentLevel = 1;
+    private int selectedLevel = 1; // Level yang dipilih user
     private int currentQuestionIndex = 0;
     private int correctAnswers = 0;
     private int totalXp = 0;
+    private int earnedXp = 0; // XP yang didapat di sesi ini
 
     private List<Map<String, Object>> questions;
+    private boolean isTtsReady = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +53,11 @@ public class ListeningActivity extends AppCompatActivity {
         firebaseHelper = FirebaseHelper.getInstance();
         userId = firebaseHelper.getCurrentUserId();
         languageName = getIntent().getStringExtra("language");
+        selectedLevel = getIntent().getIntExtra("level", 1); // Ambil level dari intent
 
         initViews();
         setupListeners();
+        initializeTTS();
         loadLanguageAndQuestions();
     }
 
@@ -67,6 +74,45 @@ public class ListeningActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_next);
         progressBar = findViewById(R.id.progress_bar);
         btnBack = findViewById(R.id.btn_back);
+    }
+
+    private void initializeTTS() {
+        textToSpeech = new TextToSpeech(this, status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                int result = setTTSLanguage();
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Toast.makeText(this, "Bahasa TTS tidak didukung", Toast.LENGTH_SHORT).show();
+                    isTtsReady = false;
+                } else {
+                    isTtsReady = true;
+                    btnPlayAudio.setEnabled(true);
+                }
+            } else {
+                Toast.makeText(this, "Inisialisasi TTS gagal", Toast.LENGTH_SHORT).show();
+                isTtsReady = false;
+            }
+        });
+    }
+
+    private int setTTSLanguage() {
+        Locale locale;
+        switch (languageName) {
+            case "Bahasa Inggris":
+                locale = Locale.US;
+                break;
+            case "Bahasa Jepang":
+                locale = Locale.JAPANESE;
+                break;
+            case "Bahasa Korea":
+                locale = Locale.KOREAN;
+                break;
+            case "Bahasa Mandarin":
+                locale = Locale.CHINESE;
+                break;
+            default:
+                locale = Locale.US;
+        }
+        return textToSpeech.setLanguage(locale);
     }
 
     private void setupListeners() {
@@ -114,11 +160,14 @@ public class ListeningActivity extends AppCompatActivity {
     }
 
     private void loadQuestions() {
-        firebaseHelper.getListeningQuestions(languageId, currentLevel, new FirebaseHelper.QuestionsCallback() {
+        // Load questions based on selected level
+        firebaseHelper.getListeningQuestions(languageId, selectedLevel, new FirebaseHelper.QuestionsCallback() {
             @Override
             public void onSuccess(List<Map<String, Object>> questionsList) {
                 if (questionsList.isEmpty()) {
-                    showCompletionDialog();
+                    Toast.makeText(ListeningActivity.this,
+                            "Belum ada soal untuk level ini", Toast.LENGTH_SHORT).show();
+                    finish();
                     return;
                 }
 
@@ -126,6 +175,7 @@ public class ListeningActivity extends AppCompatActivity {
                 Collections.shuffle(questions);
                 currentQuestionIndex = 0;
                 correctAnswers = 0;
+                earnedXp = 0; // Reset earned XP
 
                 displayQuestion();
             }
@@ -162,54 +212,43 @@ public class ListeningActivity extends AppCompatActivity {
         progressBar.setMax(questions.size());
         progressBar.setProgress(currentQuestionIndex);
 
-        // Get audio URL
-        String audioUrl = (String) question.get("audio_url");
-        prepareAudio(audioUrl);
-    }
-
-    private void prepareAudio(String audioUrl) {
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-
-        // In a real app, you would load the audio from Firebase Storage
-        // For now, we'll use a local resource or mock it
-        btnPlayAudio.setEnabled(true);
+        btnPlayAudio.setEnabled(isTtsReady);
     }
 
     private void playAudio() {
-        // Implementasi play audio
-        // Dalam implementasi nyata, gunakan MediaPlayer dengan URL dari Firebase Storage
+        if (!isTtsReady) {
+            Toast.makeText(this, "TTS belum siap", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        Map<String, Object> question = questions.get(currentQuestionIndex);
+        String correctAnswer = (String) question.get("correct_answer");
+
+        // Extract text from correct answer (remove text in parentheses if exists)
+        String textToSpeak = extractTextForSpeech(correctAnswer);
+
+        btnPlayAudio.setEnabled(false);
         Toast.makeText(this, "🔊 Memutar audio...", Toast.LENGTH_SHORT).show();
 
-        // Mock: Simulasi audio playing
-        btnPlayAudio.setEnabled(false);
+        // Set speech rate and pitch
+        textToSpeech.setSpeechRate(0.8f); // Slower for learning
+        textToSpeech.setPitch(1.0f);
+
+        textToSpeech.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
+
+        // Re-enable button after 3 seconds
         new Handler().postDelayed(() -> {
             btnPlayAudio.setEnabled(true);
-            Toast.makeText(ListeningActivity.this, "Audio selesai", Toast.LENGTH_SHORT).show();
         }, 3000);
+    }
 
-        /*
-        // Implementasi real dengan Firebase Storage:
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
+    private String extractTextForSpeech(String text) {
+        // Remove text in parentheses for cleaner speech
+        // Example: "こんにちは (Konnichiwa)" -> "こんにちは"
+        if (text.contains("(")) {
+            return text.substring(0, text.indexOf("(")).trim();
         }
-
-        mediaPlayer = new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource(audioUrl);
-            mediaPlayer.setOnPreparedListener(mp -> mp.start());
-            mediaPlayer.setOnCompletionListener(mp -> {
-                btnPlayAudio.setEnabled(true);
-                Toast.makeText(ListeningActivity.this, "Audio selesai", Toast.LENGTH_SHORT).show();
-            });
-            mediaPlayer.prepareAsync();
-        } catch (Exception e) {
-            Toast.makeText(this, "Gagal memutar audio", Toast.LENGTH_SHORT).show();
-        }
-        */
+        return text;
     }
 
     private void submitAnswer() {
@@ -230,7 +269,7 @@ public class ListeningActivity extends AppCompatActivity {
             correctAnswers++;
             Long xpReward = (Long) question.get("xp_reward");
             int xp = xpReward != null ? xpReward.intValue() : 10;
-            totalXp += xp;
+            earnedXp += xp; // Track earned XP in this session
 
             selectedRadio.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
             Toast.makeText(this, "✓ Benar! +" + xp + " XP", Toast.LENGTH_SHORT).show();
@@ -272,17 +311,25 @@ public class ListeningActivity extends AppCompatActivity {
     }
 
     private void showResultDialog() {
-        // Update progress
+        // Calculate if user passed (70% or more correct)
+        double percentage = (double) correctAnswers / questions.size();
+        boolean passed = percentage >= 0.7;
+
+        // Update progress only if passed and it's the current level
         int newLevel = currentLevel;
-        if (correctAnswers >= questions.size() * 0.7) {
+        if (passed && selectedLevel == currentLevel) {
             newLevel = currentLevel + 1;
         }
 
-        firebaseHelper.updateUserListeningProgress(userId, languageId, newLevel, totalXp,
+        // Update total XP
+        int newTotalXp = totalXp + earnedXp;
+
+        firebaseHelper.updateUserListeningProgress(userId, languageId, newLevel, newTotalXp,
                 new FirebaseHelper.XpCallback() {
                     @Override
                     public void onSuccess() {
-                        firebaseHelper.recordXpGain(userId, totalXp, null);
+                        // Record XP gain to user stats
+                        firebaseHelper.recordXpGain(userId, earnedXp, null);
                     }
 
                     @Override
@@ -291,11 +338,21 @@ public class ListeningActivity extends AppCompatActivity {
                     }
                 });
 
+        String message = "Skor: " + correctAnswers + "/" + questions.size() +
+                " (" + String.format("%.0f", percentage * 100) + "%)\n" +
+                "XP Didapat: +" + earnedXp + "\n";
+
+        if (passed && selectedLevel == currentLevel) {
+            message += "\n🎉 Selamat! Level naik ke " + newLevel + "!";
+        } else if (!passed) {
+            message += "\n⚠️ Anda perlu 70% untuk naik level. Coba lagi!";
+        } else {
+            message += "\n✓ Latihan selesai!";
+        }
+
         new AlertDialog.Builder(this)
                 .setTitle("Hasil Listening")
-                .setMessage("Skor: " + correctAnswers + "/" + questions.size() + "\n" +
-                        "Total XP: " + totalXp + "\n" +
-                        (newLevel > currentLevel ? "Level naik ke " + newLevel + "!" : ""))
+                .setMessage(message)
                 .setPositiveButton("OK", (dialog, which) -> finish())
                 .setCancelable(false)
                 .show();
@@ -313,9 +370,9 @@ public class ListeningActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
         }
     }
 }

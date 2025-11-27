@@ -249,21 +249,48 @@ public class FirebaseDataInitializer {
 
     private void addEnglishReadingQuestions() {
         Object[][] questions = {
-                {1, "My name is John. I am a student. I study English every day.",
-                        "What is John?",
-                        "A teacher", "A student", "A doctor", "A worker", "A student", 15},
+                {1, "My name is John Smith. I am 25 years old and I work as a software engineer at a technology company in Silicon Valley. " +
+                        "Every morning, I wake up at 6:30 AM and go for a run in the park near my house. After exercising, I take a shower and have breakfast. " +
+                        "I usually eat cereal with milk and drink a cup of coffee. Then I drive to work, which takes about 30 minutes. " +
+                        "I love my job because I get to solve interesting problems and work with talented people from around the world.",
+                        "What is John's profession?",
+                        "A teacher", "A software engineer", "A doctor", "An accountant", "A software engineer", 15},
 
-                {1, "The cat is sleeping on the sofa. It is very comfortable.",
-                        "Where is the cat?",
-                        "On the bed", "On the sofa", "On the floor", "On the table", "On the sofa", 15},
+                {1, "Last summer, my family and I went on vacation to Hawaii. It was an amazing experience! " +
+                        "We stayed at a beautiful hotel right on the beach. Every day, we would wake up early and watch the sunrise over the ocean. " +
+                        "The water was crystal clear and warm. We went snorkeling and saw many colorful fish and even sea turtles. " +
+                        "My favorite activity was surfing. At first, I kept falling off the board, but by the end of the week, I could stand up and ride small waves. " +
+                        "We also tried traditional Hawaiian food like poke and shaved ice. It was the best vacation ever!",
+                        "What was the writer's favorite activity?",
+                        "Snorkeling", "Swimming", "Surfing", "Eating", "Surfing", 15},
 
-                {1, "I wake up at 7 AM every morning. Then I have breakfast and go to school.",
-                        "What time does the person wake up?",
-                        "6 AM", "7 AM", "8 AM", "9 AM", "7 AM", 15},
+                {1, "Climate change is one of the biggest challenges facing our planet today. " +
+                        "Scientists have observed that global temperatures have been rising steadily over the past century. " +
+                        "This warming is primarily caused by greenhouse gases like carbon dioxide, which trap heat in the atmosphere. " +
+                        "Human activities, such as burning fossil fuels and deforestation, have significantly increased these gases. " +
+                        "The effects of climate change include melting ice caps, rising sea levels, and more frequent extreme weather events. " +
+                        "To address this problem, countries around the world are working together to reduce emissions and develop renewable energy sources.",
+                        "What is the main cause of rising global temperatures?",
+                        "Natural disasters", "Greenhouse gases", "Ocean currents", "Solar radiation", "Greenhouse gases", 15},
 
-                {1, "My favorite color is blue. I like blue because it reminds me of the ocean.",
-                        "What is the person's favorite color?",
-                        "Red", "Green", "Blue", "Yellow", "Blue", 15}
+                {1, "Emma has always loved books. When she was a child, her mother would read her bedtime stories every night. " +
+                        "As she grew older, she started reading on her own and discovered a passion for mystery novels. " +
+                        "Now, at age 30, Emma owns a small bookstore in downtown Boston. The store has tall wooden shelves filled with thousands of books. " +
+                        "She especially loves recommending books to customers and helping them find their next favorite story. " +
+                        "On weekends, Emma organizes book club meetings where people gather to discuss what they've been reading. " +
+                        "She believes that books have the power to connect people and open minds to new ideas.",
+                        "What does Emma do on weekends?",
+                        "Reads alone", "Writes books", "Organizes book club meetings", "Goes shopping", "Organizes book club meetings", 15},
+
+                {1, "The invention of the internet has revolutionized how we communicate, work, and access information. " +
+                        "In the early 1990s, only a small number of people used the internet, primarily in universities and research institutions. " +
+                        "Today, billions of people around the world are connected online. We use the internet for everything: sending emails, " +
+                        "shopping, watching videos, learning new skills, and staying in touch with friends and family. " +
+                        "Social media platforms have made it possible to share our thoughts and experiences instantly with people across the globe. " +
+                        "However, the internet also presents challenges, such as privacy concerns and the spread of misinformation. " +
+                        "Despite these issues, there's no doubt that the internet has fundamentally changed modern society.",
+                        "When did only a small number of people use the internet?",
+                        "In the 1980s", "In the early 1990s", "In the 2000s", "In the 1970s", "In the early 1990s", 15}
         };
 
         getLanguageIdAndAddReadingQuestions("Bahasa Inggris", questions);
@@ -271,13 +298,30 @@ public class FirebaseDataInitializer {
 
     private void addJapaneseReadingQuestions() {
         Object[][] questions = {
-                {1, "私の名前は田中です。私は学生です。毎日日本語を勉強しています。",
-                        "田中さんは何ですか？",
-                        "先生", "学生", "医者", "会社員", "学生", 15},
+                {1, "私の名前は田中さくらです。東京の大学で英語を勉強している学生です。" +
+                        "毎日朝7時に起きて、朝ごはんを食べます。朝ごはんはいつもご飯と味噌汁と焼き魚です。" +
+                        "その後、電車で大学に行きます。電車の中では本を読んだり、音楽を聞いたりします。" +
+                        "授業は9時から始まって、午後4時に終わります。授業が終わったら、図書館で勉強します。" +
+                        "夜は友達とご飯を食べて、家に帰って寝ます。週末は買い物に行ったり、映画を見たりします。",
+                        "田中さんは毎日何時に起きますか？",
+                        "6時", "7時", "8時", "9時", "7時", 15},
 
-                {1, "猫がソファで寝ています。とても気持ちよさそうです。",
-                        "猫はどこにいますか？",
-                        "ベッドの上", "ソファの上", "床の上", "テーブルの上", "ソファの上", 15}
+                {1, "日本には四つの季節があります。春、夏、秋、冬です。" +
+                        "春には桜の花が咲きます。日本人は桜の下でお花見をして楽しみます。天気が暖かくなって、とても気持ちがいいです。" +
+                        "夏はとても暑くて湿度が高いです。海や山に行く人が多いです。夏祭りもたくさんあります。" +
+                        "秋は涼しくて過ごしやすい季節です。紅葉がとてもきれいです。食べ物もおいしいです。" +
+                        "冬は寒いですが、雪が降ってきれいです。スキーやスノーボードをする人が多いです。",
+                        "日本人は春に何をしますか？",
+                        "海に行く", "お花見をする", "スキーをする", "紅葉を見る", "お花見をする", 15},
+
+                {1, "昨日、私は友達と京都に行きました。京都は日本の古い都市で、たくさんのお寺や神社があります。" +
+                        "まず、金閣寺に行きました。金色に輝くお寺はとても美しかったです。" +
+                        "次に、清水寺に行きました。高い場所にあるので、京都の街がよく見えました。" +
+                        "お昼は伝統的な京料理を食べました。とてもおいしかったです。" +
+                        "午後は着物を着て、街を歩きました。外国人の観光客もたくさんいました。" +
+                        "夕方、嵐山に行って、竹林を見ました。とても静かで美しい場所でした。",
+                        "最初にどこに行きましたか？",
+                        "清水寺", "金閣寺", "嵐山", "竹林", "金閣寺", 15}
         };
 
         getLanguageIdAndAddReadingQuestions("Bahasa Jepang", questions);
@@ -285,13 +329,31 @@ public class FirebaseDataInitializer {
 
     private void addKoreanReadingQuestions() {
         Object[][] questions = {
-                {1, "저는 김민수입니다. 저는 학생입니다. 매일 한국어를 공부합니다.",
-                        "김민수는 무엇입니까?",
-                        "선생님", "학생", "의사", "회사원", "학생", 15},
+                {1, "저는 김민수입니다. 서울에 사는 대학생입니다. " +
+                        "매일 아침 7시에 일어나서 운동을 합니다. 운동 후에 샤워를 하고 아침을 먹습니다. " +
+                        "아침은 주로 김치찌개와 밥을 먹습니다. 한국 음식은 정말 맛있습니다. " +
+                        "그 다음에 지하철을 타고 학교에 갑니다. 지하철에서 책을 읽거나 음악을 듣습니다. " +
+                        "수업은 9시에 시작해서 오후 5시에 끝납니다. 수업이 끝나면 친구들과 카페에 가서 커피를 마십니다. " +
+                        "저녁에는 도서관에서 공부하고 밤 11시쯤 집에 갑니다.",
+                        "김민수는 아침에 무엇을 먹습니까?",
+                        "빵과 우유", "김치찌개와 밥", "라면", "과일", "김치찌개와 밥", 15},
 
-                {1, "고양이가 소파에서 자고 있습니다. 매우 편안해 보입니다.",
-                        "고양이는 어디에 있습니까?",
-                        "침대 위", "소파 위", "바닥 위", "테이블 위", "소파 위", 15}
+                {1, "한국의 가을은 정말 아름답습니다. 9월부터 11월까지가 가을입니다. " +
+                        "가을에는 날씨가 시원하고 하늘이 맑습니다. 산의 나무들이 빨강색, 노랑색, 주황색으로 변합니다. " +
+                        "많은 사람들이 산에 등산을 갑니다. 등산을 하면서 아름다운 단풍을 볼 수 있습니다. " +
+                        "가을에는 맛있는 음식도 많습니다. 밤, 대추, 감 등이 있습니다. " +
+                        "또한 추석이라는 명절이 있습니다. 추석에는 가족들이 모여서 송편을 먹고 즐거운 시간을 보냅니다.",
+                        "가을에 많은 사람들이 무엇을 합니까?",
+                        "수영", "스키", "등산", "낚시", "등산", 15},
+
+                {1, "지난 주말에 저는 부산에 갔습니다. 부산은 한국의 남쪽에 있는 큰 도시입니다. " +
+                        "바다가 있어서 경치가 정말 아름답습니다. 저는 KTX 기차를 타고 갔는데, 2시간 30분 걸렸습니다. " +
+                        "부산에 도착해서 먼저 해운대 해변에 갔습니다. 모래가 하얗고 물이 깨끗했습니다. " +
+                        "점심으로 신선한 회를 먹었습니다. 정말 맛있었습니다. " +
+                        "오후에는 감천문화마을에 갔습니다. 알록달록한 집들이 언덕에 있어서 사진을 많이 찍었습니다. " +
+                        "저녁에는 자갈치 시장에서 해산물을 먹고, 밤에 광안대교의 야경을 봤습니다. 정말 멋있었습니다!",
+                        "부산에 어떻게 갔습니까?",
+                        "비행기", "버스", "KTX 기차", "자동차", "KTX 기차", 15}
         };
 
         getLanguageIdAndAddReadingQuestions("Bahasa Korea", questions);
@@ -299,13 +361,32 @@ public class FirebaseDataInitializer {
 
     private void addMandarinReadingQuestions() {
         Object[][] questions = {
-                {1, "我叫李明。我是学生。我每天学习中文。",
-                        "李明是什么？",
-                        "老师", "学生", "医生", "工人", "学生", 15},
+                {1, "我叫李明，是一名大学生。我在北京学习中文。" +
+                        "每天早上七点起床，然后去食堂吃早饭。我喜欢吃包子和喝豆浆。" +
+                        "吃完早饭后，我去图书馆学习。我的中文课从上午九点开始，到下午四点结束。" +
+                        "课后，我常常和朋友们一起打篮球或者去咖啡馆喝咖啡。" +
+                        "晚上，我在宿舍做作业和复习功课。周末的时候，我喜欢去公园散步或者看电影。" +
+                        "我很喜欢在北京的生活，这里有很多有趣的地方可以参观。",
+                        "李明每天早上吃什么？",
+                        "面条", "包子和豆浆", "米饭", "饺子", "包子和豆浆", 15},
 
-                {1, "猫在沙发上睡觉。它看起来很舒服。",
-                        "猫在哪里？",
-                        "床上", "沙发上", "地板上", "桌子上", "沙发上", 15}
+                {1, "中国有很多传统节日，其中最重要的是春节。春节通常在一月或二月。" +
+                        "春节之前，人们会打扫房子，买新衣服，准备很多好吃的食物。" +
+                        "除夕那天，全家人会一起吃团圆饭。饭菜非常丰盛，有鱼、肉、蔬菜等等。" +
+                        "吃完饭后，大家会一起看春节联欢晚会。到了午夜，人们会放烟花和鞭炮。" +
+                        "春节期间，孩子们会收到红包，里面有钱。人们也会去拜访亲戚和朋友，互相说'新年快乐'。" +
+                        "春节假期通常有七天，是中国最长的假期。",
+                        "春节通常在什么时候？",
+                        "三月或四月", "一月或二月", "五月或六月", "十月或十一月", "一月或二月", 15},
+
+                {1, "上个月，我去了中国的长城。长城是世界上最长的墙，有6000多公里长。" +
+                        "我去的是八达岭长城，这是最有名的一段。那天天气很好，阳光明媚。" +
+                        "爬长城很累，但是风景非常美。从长城上可以看到连绵的山脉和茂密的树林。" +
+                        "我拍了很多照片。导游告诉我们，长城有2000多年的历史了。" +
+                        "古代的人们建造长城是为了防御敌人的入侵。真不敢相信他们怎么能建造这么伟大的工程！" +
+                        "爬到长城顶端后，我感到非常自豪。这次旅行让我更了解中国的历史和文化。",
+                        "长城有多长？",
+                        "3000多公里", "4000多公里", "5000多公里", "6000多公里", "6000多公里", 15}
         };
 
         getLanguageIdAndAddReadingQuestions("Bahasa Mandarin", questions);
