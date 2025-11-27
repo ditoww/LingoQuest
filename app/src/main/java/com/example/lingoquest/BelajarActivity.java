@@ -83,7 +83,7 @@ public class BelajarActivity extends AppCompatActivity {
         findViewById(R.id.layout_continue_learning).setOnClickListener(v -> showContinueLearningDialog());
         findViewById(R.id.layout_new_practice).setOnClickListener(v -> showNewPracticeDialog());
 
-        // LISTENING & READING - INI YANG PENTING
+        // LISTENING & READING - FIXED VERSION
         findViewById(R.id.layout_listening_practice).setOnClickListener(v -> {
             Log.d(TAG, "Listening clicked!");
             showListeningDialog();
@@ -111,30 +111,35 @@ public class BelajarActivity extends AppCompatActivity {
         }
     }
 
-    // ==================== LISTENING DIALOG ====================
+    // ==================== LISTENING DIALOG - FIXED ====================
     private void showListeningDialog() {
         Log.d(TAG, "showListeningDialog called");
 
-        String[] languages = {"Bahasa Inggris", "Bahasa Jepang", "Bahasa Korea", "Bahasa Mandarin"};
+        final String[] languages = {"Bahasa Inggris", "Bahasa Jepang", "Bahasa Korea", "Bahasa Mandarin"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("🎧 Pilih Bahasa - Listening");
-        builder.setMessage("Pilih bahasa untuk latihan mendengar");
-        builder.setItems(languages, (dialog, which) -> {
+
+        // Gunakan setSingleChoiceItems untuk list yang bisa diklik
+        builder.setSingleChoiceItems(languages, -1, (dialog, which) -> {
             String selectedLanguage = languages[which];
             Log.d(TAG, "Language selected: " + selectedLanguage);
 
-            // Langsung start activity
+            // Tutup dialog
+            dialog.dismiss();
+
+            // Start activity
             try {
                 Intent intent = new Intent(BelajarActivity.this, ListeningLevelActivity.class);
                 intent.putExtra("language", selectedLanguage);
-                Log.d(TAG, "Starting ListeningLevelActivity...");
+                Log.d(TAG, "Starting ListeningLevelActivity with language: " + selectedLanguage);
                 startActivity(intent);
             } catch (Exception e) {
                 Log.e(TAG, "Error starting ListeningLevelActivity", e);
                 Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
         builder.setNegativeButton("Batal", (dialog, which) -> {
             Log.d(TAG, "Dialog cancelled");
             dialog.dismiss();
@@ -145,30 +150,35 @@ public class BelajarActivity extends AppCompatActivity {
         Log.d(TAG, "Dialog shown");
     }
 
-    // ==================== READING DIALOG ====================
+    // ==================== READING DIALOG - FIXED ====================
     private void showReadingDialog() {
         Log.d(TAG, "showReadingDialog called");
 
-        String[] languages = {"Bahasa Inggris", "Bahasa Jepang", "Bahasa Korea", "Bahasa Mandarin"};
+        final String[] languages = {"Bahasa Inggris", "Bahasa Jepang", "Bahasa Korea", "Bahasa Mandarin"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("📖 Pilih Bahasa - Reading");
-        builder.setMessage("Pilih bahasa untuk latihan membaca");
-        builder.setItems(languages, (dialog, which) -> {
+
+        // Gunakan setSingleChoiceItems untuk list yang bisa diklik
+        builder.setSingleChoiceItems(languages, -1, (dialog, which) -> {
             String selectedLanguage = languages[which];
             Log.d(TAG, "Language selected: " + selectedLanguage);
 
-            // Langsung start activity
+            // Tutup dialog
+            dialog.dismiss();
+
+            // Start activity
             try {
                 Intent intent = new Intent(BelajarActivity.this, ReadingLevelActivity.class);
                 intent.putExtra("language", selectedLanguage);
-                Log.d(TAG, "Starting ReadingLevelActivity...");
+                Log.d(TAG, "Starting ReadingLevelActivity with language: " + selectedLanguage);
                 startActivity(intent);
             } catch (Exception e) {
                 Log.e(TAG, "Error starting ReadingLevelActivity", e);
                 Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
         builder.setNegativeButton("Batal", (dialog, which) -> {
             Log.d(TAG, "Dialog cancelled");
             dialog.dismiss();

@@ -34,9 +34,11 @@ public class ReadingActivity extends AppCompatActivity {
     private FirebaseHelper firebaseHelper;
     private String userId, languageId, languageName;
     private int currentLevel = 1;
+    private int selectedLevel = 1; // Level yang dipilih user
     private int currentQuestionIndex = 0;
     private int correctAnswers = 0;
     private int totalXp = 0;
+    private int earnedXp = 0; // XP yang didapat di sesi ini
 
     private List<Map<String, Object>> questions;
 
@@ -48,6 +50,7 @@ public class ReadingActivity extends AppCompatActivity {
         firebaseHelper = FirebaseHelper.getInstance();
         userId = firebaseHelper.getCurrentUserId();
         languageName = getIntent().getStringExtra("language");
+        selectedLevel = getIntent().getIntExtra("level", 1); // Ambil level dari intent
 
         initViews();
         setupListeners();
@@ -113,11 +116,14 @@ public class ReadingActivity extends AppCompatActivity {
     }
 
     private void loadQuestions() {
-        firebaseHelper.getReadingQuestions(languageId, currentLevel, new FirebaseHelper.QuestionsCallback() {
+        // Load questions based on selected level
+        firebaseHelper.getReadingQuestions(languageId, selectedLevel, new FirebaseHelper.QuestionsCallback() {
             @Override
             public void onSuccess(List<Map<String, Object>> questionsList) {
                 if (questionsList.isEmpty()) {
-                    showCompletionDialog();
+                    Toast.makeText(ReadingActivity.this,
+                            "Belum ada soal untuk level ini", Toast.LENGTH_SHORT).show();
+                    finish();
                     return;
                 }
 
@@ -125,6 +131,7 @@ public class ReadingActivity extends AppCompatActivity {
                 Collections.shuffle(questions);
                 currentQuestionIndex = 0;
                 correctAnswers = 0;
+                earnedXp = 0; // Reset earned XP
 
                 displayQuestion();
             }
@@ -189,7 +196,7 @@ public class ReadingActivity extends AppCompatActivity {
             correctAnswers++;
             Long xpReward = (Long) question.get("xp_reward");
             int xp = xpReward != null ? xpReward.intValue() : 15;
-            totalXp += xp;
+            earnedXp += xp; // Track earned XP in this session
 
             selectedRadio.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
             Toast.makeText(this, "✓ Benar! +" + xp + " XP", Toast.LENGTH_SHORT).show();
@@ -207,7 +214,7 @@ public class ReadingActivity extends AppCompatActivity {
                 rbOption4.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
             }
 
-            Toast.makeText(this, "✗ Salah!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "✗ Salah! Jawaban: " + correctAnswer, Toast.LENGTH_SHORT).show();
         }
 
         btnSubmit.setEnabled(false);
@@ -231,17 +238,25 @@ public class ReadingActivity extends AppCompatActivity {
     }
 
     private void showResultDialog() {
-        // Update progress
+        // Calculate if user passed (70% or more correct)
+        double percentage = (double) correctAnswers / questions.size();
+        boolean passed = percentage >= 0.7;
+
+        // Update progress only if passed and it's the current level
         int newLevel = currentLevel;
-        if (correctAnswers >= questions.size() * 0.7) {
+        if (passed && selectedLevel == currentLevel) {
             newLevel = currentLevel + 1;
         }
 
-        firebaseHelper.updateUserReadingProgress(userId, languageId, newLevel, totalXp,
+        // Update total XP
+        int newTotalXp = totalXp + earnedXp;
+
+        firebaseHelper.updateUserReadingProgress(userId, languageId, newLevel, newTotalXp,
                 new FirebaseHelper.XpCallback() {
                     @Override
                     public void onSuccess() {
-                        firebaseHelper.recordXpGain(userId, totalXp, null);
+                        // Record XP gain to user stats
+                        firebaseHelper.recordXpGain(userId, earnedXp, null);
                     }
 
                     @Override
@@ -250,11 +265,21 @@ public class ReadingActivity extends AppCompatActivity {
                     }
                 });
 
+        String message = "Skor: " + correctAnswers + "/" + questions.size() +
+                " (" + String.format("%.0f", percentage * 100) + "%)\n" +
+                "XP Didapat: +" + earnedXp + "\n";
+
+        if (passed && selectedLevel == currentLevel) {
+            message += "\n🎉 Selamat! Level naik ke " + newLevel + "!";
+        } else if (!passed) {
+            message += "\n⚠️ Anda perlu 70% untuk naik level. Coba lagi!";
+        } else {
+            message += "\n✓ Latihan selesai!";
+        }
+
         new AlertDialog.Builder(this)
                 .setTitle("Hasil Reading")
-                .setMessage("Skor: " + correctAnswers + "/" + questions.size() + "\n" +
-                        "Total XP: " + totalXp + "\n" +
-                        (newLevel > currentLevel ? "Level naik ke " + newLevel + "!" : ""))
+                .setMessage(message)
                 .setPositiveButton("OK", (dialog, which) -> finish())
                 .setCancelable(false)
                 .show();
