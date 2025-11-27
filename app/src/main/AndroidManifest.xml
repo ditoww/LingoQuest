@@ -11,6 +11,7 @@
 
     <!-- TAMBAHAN: Permission untuk Notifikasi (Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <!-- Deklarasi Fitur (Opsional untuk Kamera) -->
     <uses-feature

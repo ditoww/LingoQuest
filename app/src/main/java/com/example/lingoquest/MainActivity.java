@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private long challengeEndTime;
     private FirebaseHelper firebaseHelper;
     private String userId;
-    private RankNotificationHelper notificationHelper; // ← TAMBAHAN
+    private RankNotificationHelper notificationHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,31 +53,21 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("LingoQuestPrefs", MODE_PRIVATE);
         userId = prefs.getString("user_id", null);
 
-        // ==================== TAMBAHAN: INISIALISASI DATA ====================
-        // Cek apakah data sudah diinisialisasi sebelumnya
         boolean dataInitialized = prefs.getBoolean("data_initialized", false);
 
         if (!dataInitialized) {
-            // Inisialisasi data hanya sekali
             initializeFirebaseData();
-
-            // Tandai bahwa data sudah diinisialisasi
             prefs.edit().putBoolean("data_initialized", true).apply();
-
             Toast.makeText(this, "Initializing app data... Please wait", Toast.LENGTH_LONG).show();
         }
-        // ====================================================================
 
-        // ==================== TAMBAHAN: INISIALISASI NOTIFIKASI PERINGKAT ====================
         // Inisialisasi helper notifikasi
         notificationHelper = new RankNotificationHelper(this);
 
-        // Jadwalkan notifikasi peringkat otomatis (2x sehari: jam 9 pagi & 6 sore)
+        // Jadwalkan notifikasi peringkat otomatis
         notificationHelper.scheduleRankNotification();
 
-        // Log untuk debugging
         android.util.Log.d("MainActivity", "Rank notification scheduler initialized");
-        // =====================================================================================
 
         ivAvatar = findViewById(R.id.avatar);
         tvLevel = findViewById(R.id.level_value);
@@ -126,50 +116,102 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // ==================== TAMBAHAN: TEST NOTIFIKASI (OPSIONAL) ====================
-        // Uncomment untuk test notifikasi manual
-        // testNotification();
-        // ===============================================================================
+        // ========== AKTIFKAN SALAH SATU TEST DI BAWAH INI ==========
+
+        // TEST 1: Test notifikasi motivasi (stuck peringkat)
+        testMotivationalNotification();  // ← AKTIF: Otomatis muncul 2 detik setelah app dibuka
+
+        // TEST 2: Test notifikasi naik peringkat
+        // testRankUpNotification();
+
+        // TEST 3: Test notifikasi turun peringkat
+        // testRankDownNotification();
+
+        // TEST 4: Test request permission notifikasi (Android 13+)
+        testNotificationPermission();
     }
 
-    // ==================== TAMBAHAN: METHOD INISIALISASI DATA ====================
-    /**
-     * Method untuk inisialisasi data Firebase
-     * Hanya akan dijalankan sekali saat pertama kali app dibuka
-     */
     private void initializeFirebaseData() {
         FirebaseDataInitializer initializer = new FirebaseDataInitializer();
         initializer.initializeAllData();
-
-        // Log untuk debugging
         android.util.Log.d("MainActivity", "Firebase data initialization started");
-
-        // Optional: Tampilkan dialog loading
-        // Anda bisa tambahkan ProgressDialog atau Toast di sini
     }
-    // ===========================================================================
 
-    // ==================== TAMBAHAN: METHOD TEST NOTIFIKASI (OPSIONAL) ====================
+    // ========== TEST METHODS ==========
+
     /**
-     * Method untuk testing notifikasi secara manual
-     * Uncomment method testNotification() di onCreate untuk menggunakan
+     * Test 1: Notifikasi motivasi untuk user yang stuck di peringkat
      */
-    private void testNotification() {
-        // Test notifikasi stuck peringkat
-        notificationHelper.showMotivationalNotification(5, 3);
-
-        // Atau test notifikasi perubahan peringkat
-        // notificationHelper.showRankNotification(3, 5, "John");
-
-        Toast.makeText(this, "Test notifikasi dikirim!", Toast.LENGTH_SHORT).show();
-        android.util.Log.d("MainActivity", "Test notification sent");
+    private void testMotivationalNotification() {
+        new Handler().postDelayed(() -> {
+            notificationHelper.showMotivationalNotification(5, 3);
+            Toast.makeText(this, "Test: Notifikasi motivasi dikirim!", Toast.LENGTH_SHORT).show();
+            android.util.Log.d("MainActivity", "Test motivational notification sent (Rank: 5, Days stuck: 3)");
+        }, 2000); // Delay 2 detik setelah app dibuka
     }
-    // ======================================================================================
+
+    /**
+     * Test 2: Notifikasi naik peringkat
+     */
+    private void testRankUpNotification() {
+        new Handler().postDelayed(() -> {
+            notificationHelper.showRankNotification(3, 5, "TestUser");
+            Toast.makeText(this, "Test: Notifikasi naik peringkat dikirim!", Toast.LENGTH_SHORT).show();
+            android.util.Log.d("MainActivity", "Test rank up notification sent (5 -> 3)");
+        }, 2000);
+    }
+
+    /**
+     * Test 3: Notifikasi turun peringkat
+     */
+    private void testRankDownNotification() {
+        new Handler().postDelayed(() -> {
+            notificationHelper.showRankNotification(8, 5, "TestUser");
+            Toast.makeText(this, "Test: Notifikasi turun peringkat dikirim!", Toast.LENGTH_SHORT).show();
+            android.util.Log.d("MainActivity", "Test rank down notification sent (5 -> 8)");
+        }, 2000);
+    }
+
+    /**
+     * Test 4: Request permission notifikasi untuk Android 13+
+     */
+    private void testNotificationPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                    != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(
+                        new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+                        1001
+                );
+                android.util.Log.d("MainActivity", "Requesting notification permission");
+            } else {
+                android.util.Log.d("MainActivity", "Notification permission already granted");
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1001) {
+            if (grantResults.length > 0 && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission notifikasi diberikan! Coba test notifikasi.", Toast.LENGTH_LONG).show();
+                android.util.Log.d("MainActivity", "Notification permission granted");
+
+                // Otomatis test notifikasi setelah permission diberikan
+                testMotivationalNotification();
+            } else {
+                Toast.makeText(this, "Permission notifikasi ditolak. Notifikasi tidak akan muncul.", Toast.LENGTH_LONG).show();
+                android.util.Log.d("MainActivity", "Notification permission denied");
+            }
+        }
+    }
+
+    // ========== EXISTING METHODS ==========
 
     private void loadUserData() {
         if (userId == null) return;
 
-        // Load user data dari Firebase
         firebaseHelper.getUserData(userId, new FirebaseHelper.UserDataCallback() {
             @Override
             public void onSuccess(Map<String, Object> userData) {
@@ -192,7 +234,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Load user stats dari Firebase
         firebaseHelper.getUserStats(userId, new FirebaseHelper.UserDataCallback() {
             @Override
             public void onSuccess(Map<String, Object> stats) {
@@ -217,11 +258,9 @@ public class MainActivity extends AppCompatActivity {
     private void setChallengeTimer() {
         if (userId == null) return;
 
-        // Load daily mission data dari Firebase
         firebaseHelper.getUserData(userId, new FirebaseHelper.UserDataCallback() {
             @Override
             public void onSuccess(Map<String, Object> userData) {
-                // Get daily mission untuk timer
                 com.google.firebase.firestore.FirebaseFirestore.getInstance()
                         .collection("daily_missions")
                         .document(userId)

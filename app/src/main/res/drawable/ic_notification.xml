@@ -1,7 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/ic_launcer_lingoquest"
-    android:tint="@android:color/white"
-    android:gravity="center" >
-</bitmap>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
 
+    <!-- Crown (Mahkota) -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M5,16L3,5l5.5,5L12,4l3.5,6L21,5l-2,11H5z M12,18c1.1,0 2,0.9 2,2s-0.9,2 -2,2 -2,-0.9 -2,-2 0.9,-2 2,-2z"/>
+</vector>
