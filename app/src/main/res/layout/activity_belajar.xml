@@ -66,7 +66,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pilihan Bahasa"
+                    android:text="Rekomendasi Buku"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:textColor="#FFFFFF" />
@@ -79,20 +79,23 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp">
 
-                    <!-- Bahasa Inggris -->
+                    <!-- Kesehatan Mental -->
                     <LinearLayout
-                        android:id="@+id/layout_english"
+                        android:id="@+id/layout_mental_health"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:background="@drawable/bg_statistik_item"
                         android:padding="12dp"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical">
 
-                        <ImageView
+                        <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:src="@drawable/inggris"/>
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/kesehatan_mental"
+                            app:shapeAppearanceOverlay="@style/RoundedSquare" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -104,12 +107,12 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Bahasa Inggris"
+                                android:text="Kesehatan Mental"
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp" />
 
                             <TextView
-                                android:id="@+id/level_english"
+                                android:id="@+id/level_mental"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#FFFFFF"
@@ -117,7 +120,7 @@
                                 android:layout_marginTop="4dp"/>
 
                             <ProgressBar
-                                android:id="@+id/progress_english"
+                                android:id="@+id/progress_mental"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="4dp"
@@ -125,7 +128,7 @@
                                 android:progressTint="#00FF00" />
 
                             <TextView
-                                android:id="@+id/progress_text_english"
+                                android:id="@+id/progress_text_mental"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#CCCCCC"
@@ -134,7 +137,7 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Bahasa Jepang -->
+                    <!-- Bye-Bye Burnout -->
                     <LinearLayout
                         android:id="@+id/layout_japanese"
                         android:layout_width="match_parent"
@@ -142,12 +145,15 @@
                         android:orientation="horizontal"
                         android:background="@drawable/bg_statistik_item"
                         android:padding="12dp"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical">
 
-                        <ImageView
+                        <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:src="@drawable/jepang"/>
+                            android:src="@drawable/bye_bye_burnout"
+                            android:scaleType="centerCrop"
+                            app:shapeAppearanceOverlay="@style/RoundedSquare" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -159,7 +165,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Bahasa Jepang"
+                                android:text="Bye-Bye Burnout"
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp" />
 
@@ -214,7 +220,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Bahasa Korea"
+                                android:text="Hidup Tenang"
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp" />
 
@@ -270,7 +276,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Bahasa Mandarin"
+                                android:text="Seni Hidup Bahagia"
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp" />
 
@@ -390,7 +396,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@android:drawable/ic_lock_silent_mode_off"
-                            android:tint="#FFFFFF"/>
+                            app:tint="#FFFFFF"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -418,7 +424,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@android:drawable/ic_menu_my_calendar"
-                            android:tint="#FFFFFF"/>
+                            app:tint="#FFFFFF"/>
 
                         <TextView
                             android:layout_width="wrap_content"

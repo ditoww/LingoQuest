@@ -21,7 +21,7 @@
             android:id="@+id/logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LingoQuest"
+            android:text="Hugsy"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
@@ -66,7 +66,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Statistik Belajar"
+                    android:text="Statistik Pengguna"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#FFFFFF" />
@@ -196,7 +196,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pilihan Bahasa"
+                    android:text="Fitur"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:textColor="#FFFFFF" />
@@ -226,13 +226,13 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/inggris" />
+                            android:src="@drawable/ruang_curhat" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Bahasa Inggris"
+                            android:text="Ruang Curhat"
                             android:textColor="#FFFFFF" />
                     </LinearLayout>
 
@@ -252,13 +252,13 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/jepang" />
+                            android:src="@drawable/ruang_diskusi" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Bahasa Jepang"
+                            android:text="Ruang Diskusi"
                             android:textColor="#FFFFFF" />
                     </LinearLayout>
 
@@ -278,13 +278,13 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/korea" />
+                            android:src="@drawable/music" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Bahasa Korea"
+                            android:text="Music"
                             android:textColor="#FFFFFF" />
                     </LinearLayout>
 
@@ -304,13 +304,13 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/mandarin" />
+                            android:src="@drawable/game" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Bahasa Mandarin"
+                            android:text="Game"
                             android:textColor="#FFFFFF" />
                     </LinearLayout>
                 </GridLayout>
@@ -319,7 +319,7 @@
                     android:id="@+id/see_more_languages"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lihat bahasa lainnya >"
+                    android:text="Lihat fitur lainnya >"
                     android:textColor="#FFFFFF"
                     android:layout_gravity="center_horizontal"/>
             </LinearLayout>
@@ -332,7 +332,7 @@
                 android:padding="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
-                android:background="#37005B">
+                android:background="#B45309">
 
                 <TextView
                     android:layout_width="wrap_content"
