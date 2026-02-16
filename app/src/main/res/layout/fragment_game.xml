@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#F1E6FF">
+    android:background="#FFE287">
 
     <!-- Mode Tantangan -->
     <TextView

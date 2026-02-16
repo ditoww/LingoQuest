@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#E6B0E0">
+    android:background="#D18B47">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

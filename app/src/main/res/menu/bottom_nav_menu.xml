@@ -5,13 +5,13 @@
         android:icon="@drawable/home"
         android:title="Beranda" />
     <item
-        android:id="@+id/nav_belajar"
+        android:id="@+id/nav_buku"
         android:icon="@drawable/belajar"
-        android:title="Belajar" />
+        android:title="Buku" />
     <item
-        android:id="@+id/nav_tantangan"
-        android:icon="@drawable/tantangan"
-        android:title="Tantangan" />
+        android:id="@+id/nav_message"
+        android:icon="@drawable/message"
+        android:title="Message" />
     <item
         android:id="@+id/nav_peringkat"
         android:icon="@drawable/peringkat"

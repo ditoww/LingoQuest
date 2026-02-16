@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3E7FA"
+    android:background="@drawable/bg_login_gradient"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +29,7 @@
             android:id="@+id/logoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/logo1"
+            android:src="@drawable/logo"
             android:contentDescription="Logo"
             app:layout_constraintTop_toBottomOf="@id/avatarImage"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:text="Buat akun baru untuk mulai!"
             android:textSize="14sp"
-            android:textColor="#888888"
+            android:textColor="#FFFFFF"
             app:layout_constraintTop_toBottomOf="@id/logoText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -43,7 +43,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"
-            android:background="#e6e6fa">
+            android:background="#FFE287">
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -282,7 +282,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp"
-            android:background="#e6e6fa">
+            android:background="#FFE287">
 
             <!-- Row for Profile Image and Progress Bar -->
             <LinearLayout
@@ -308,7 +308,7 @@
                     android:layout_weight="1"
                     android:max="100"
                     android:progress="0"
-                    android:progressTint="#e040fb" />
+                    android:progressTint="#B45309" />
             </LinearLayout>
 
             <!-- Row for Rank and XP Text -->

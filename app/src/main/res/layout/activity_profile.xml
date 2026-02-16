@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#F5E6FF">
+    android:background="#D18B47">
 
     <!-- Header Tetap -->
     <LinearLayout
