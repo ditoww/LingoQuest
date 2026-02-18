@@ -269,9 +269,9 @@ public class BelajarActivity extends AppCompatActivity {
 
         switch (languageName) {
             case "Bahasa Inggris":
-                levelTextId = R.id.level_english;
-                progressBarId = R.id.progress_english;
-                progressTextId = R.id.progress_text_english;
+                levelTextId = R.id.layout_mental_health;
+                progressBarId = R.id.progress_mental;
+                progressTextId = R.id.progress_text_mental;
                 break;
             case "Bahasa Jepang":
                 levelTextId = R.id.level_japanese;
@@ -446,7 +446,7 @@ public class BelajarActivity extends AppCompatActivity {
 
     private void setupBottomNavigation() {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setSelectedItemId(R.id.nav_belajar);
+        bottomNav.setSelectedItemId(R.id.nav_buku);
         bottomNav.setOnNavigationItemSelectedListener(item -> {
             NavigationItem navItem = NavigationItem.fromItemId(item.getItemId());
             if (navItem == null) return false;

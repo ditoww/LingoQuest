@@ -150,7 +150,7 @@ public class TantanganActivity extends AppCompatActivity {
             }
         });
 
-        bottomNav.setSelectedItemId(R.id.nav_tantangan);
+        bottomNav.setSelectedItemId(R.id.nav_message);
     }
 
     private void loadUserData() {

@@ -10,9 +10,9 @@ public enum NavigationItem {
     public static NavigationItem fromItemId(int itemId) {
         if (itemId == R.id.nav_home) {
             return NAV_HOME;
-        } else if (itemId == R.id.nav_belajar) {
+        } else if (itemId == R.id.nav_buku) {
             return NAV_BELAJAR;
-        } else if (itemId == R.id.nav_tantangan) {
+        } else if (itemId == R.id.nav_message) {
             return NAV_TANTANGAN;
         } else if (itemId == R.id.nav_peringkat) {
             return NAV_PERINGKAT;
